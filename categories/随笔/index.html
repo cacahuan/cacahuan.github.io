@@ -32,13 +32,11 @@
 
 
 
-  <title> Caca </title>
+  <title> Category: 随笔 // Caca </title>
 </head>
 
 <body>
-  <div class="container one-column 
-   page-home 
-">
+  <div class="container one-column ">
     <div class="headband"></div>
 
     <div id="header" class="header">
@@ -94,112 +92,15 @@
             
           
 
-          <div id="posts" class="posts-expand">
+          <div id="posts" class="posts-collapse">
             
-  
-    
 
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2016/04/30/struts2笔记一/">
-                struts2笔记一
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          
-            Posted on 2016-04-30
-          
-        </span>
-
-        
-          
-            <span class="post-category">
-              &nbsp; | &nbsp; In
-              
-                <a href="/categories/笔记/">笔记</a>
-
-                
-                
-
-              
-            </span>
-          
-        
-
-        
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          
-            <ol>
-<li>VS 自实现:</li>
-</ol>
-<p>1). 搭建 Struts2 的开发环境</p>
-<p>2). 不需要显式的定义 Filter, 而使用的是 struts2 的配置文件. </p>
-<p>3). details.jsp 比先前变得简单了.</p>
-<p>${requestScope.product.productName} -&gt; ${productName}</p>
-<p>4). 步骤:</p>
-<p>I.  由 product-input.action 转到 /WEB-INF/pages/input.jsp</p>
-<p>在 struts2 中配置一个 action</p>
-<pre><code>&lt;action name=&quot;product-input&quot;&gt;
-    &lt;result&gt;/WEB-INF/pages/input.jsp&lt;/result&gt;
-&lt;/action&gt;
-</code></pre><p>II. 由 input.jsp 页面的 action: product-save.action 到 Product’s save, 再到  /WEB-INF/pages/details.jsp</p>
-<pre><code>&lt;action name=&quot;product-save&quot; class=&quot;com.atguigu.struts2.helloworld.Product&quot;
-    method=&quot;save&quot;&gt;
-    &lt;result name=&quot;details&quot;&gt;/WEB-INF/pages/details.jsp&lt;/result&gt;    
-&lt;/action&gt;
-
-在 Prodcut 中定义一个 save 方法, 且返回值为 details
-</code></pre>
-          
-        
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/struts2/">
-                #struts2
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-        
-          <div class="post-eof"></div>
-        
-      </div>
-    
+  <div class="collection-title">
+    <h2 >
+      随笔
+      <small>Category</small>
+    </h2>
   </div>
-
 
   
     
@@ -224,23 +125,10 @@
       <div class="post-meta">
         <span class="post-time">
           
-            Posted on 2016-04-30
+            04-30
           
         </span>
 
-        
-          
-            <span class="post-category">
-              &nbsp; | &nbsp; In
-              
-                <a href="/categories/随笔/">随笔</a>
-
-                
-                
-
-              
-            </span>
-          
         
 
         
@@ -250,66 +138,13 @@
     </div>
 
     
-      <div class="post-body">
 
-        
-        
-
-        
-          
-            <p>  <img src="http://c2i.zhuoxiu.com.cn/upload/desk/576x373/1209/1347332599_1076.jpg" alt="夕阳"></p>
-<pre><code>昨夜下了雨，淅淅沥沥
-久久才把我逼入梦境
-信步在夕阳里 尽管小心翼翼
-每个脚印依然被踩成了好听的诗句
-
-驻足，寻觅
-寻觅电话里你要的彩虹
-顿时，我仿佛看见了你指着彩虹开心笑的可爱模样
-可惜，觅见的只有花间闪烁的飞虫
-还有叶片上打盹的蜗牛
-想起了我调皮的小时候
-躲在橱柜里睡过了头
-奶奶急得跺脚拍手
-找到我时，怀里还抱着心爱的小皮球
-
-继续走
-路面上蜷缩着许多蚯蚓的尸体
-不懂为何
-我想是这夕阳过于绯红
-它们不忍湮灭这美好的幻梦
-遂将自己葬于其中
-倘若如此，我也愿意！
-</code></pre>
-          
-        
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/小诗/">
-                #小诗
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-        
-          <div class="post-eof"></div>
-        
-      </div>
     
   </div>
 
 
   
+
 
           </div>
 
