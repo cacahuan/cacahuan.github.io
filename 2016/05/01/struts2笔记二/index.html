@@ -22,7 +22,7 @@
 
 	<meta name="keywords" content="struts2," />
 
-  <title> struts2笔记一 // Caca </title>
+  <title> struts2笔记二 // Caca </title>
 </head>
 
 <body>
@@ -103,7 +103,7 @@
           
           
             
-              struts2笔记一
+              struts2笔记二
             
           
         </h1>
@@ -112,7 +112,7 @@
       <div class="post-meta">
         <span class="post-time">
           
-            Posted on 2016-04-30
+            Posted on 2016-05-01
           
         </span>
 
@@ -145,25 +145,100 @@
 
         
           <ol>
-<li>VS 自实现:</li>
+<li>result:</li>
 </ol>
-<p>1). 搭建 Struts2 的开发环境</p>
-<p>2). 不需要显式的定义 Filter, 而使用的是 struts2 的配置文件. </p>
-<p>3). details.jsp 比先前变得简单了.</p>
-<p>${requestScope.product.productName} -&gt; ${productName}</p>
-<p>4). 步骤:</p>
-<p>I.  由 product-input.action 转到 /WEB-INF/pages/input.jsp</p>
-<p>在 struts2 中配置一个 action</p>
-<pre><code>&lt;action name=&quot;product-input&quot;&gt;
-    &lt;result&gt;/WEB-INF/pages/input.jsp&lt;/result&gt;
-&lt;/action&gt;
-</code></pre><p>II. 由 input.jsp 页面的 action: product-save.action 到 Product’s save, 再到  /WEB-INF/pages/details.jsp</p>
-<pre><code>&lt;action name=&quot;product-save&quot; class=&quot;com.atguigu.struts2.helloworld.Product&quot;
-    method=&quot;save&quot;&gt;
-    &lt;result name=&quot;details&quot;&gt;/WEB-INF/pages/details.jsp&lt;/result&gt;    
-&lt;/action&gt;
+<p>1). result 是 action 节点的子节点</p>
+<p>2). result 代表 action 方法执行后, 可能去的一个目的地</p>
+<p>3). 一个 action 节点可以配置多个 result 子节点. </p>
+<p>4). result 的 name 属性值对应着 action 方法可能有的一个返回值. </p>
+<result name="index">/index.jsp</result>
 
-在 Prodcut 中定义一个 save 方法, 且返回值为 details
+<p>5). result 一共有 2 个属性, 还有一个是 type: 表示结果的响应类型</p>
+<p>6). result 的 type 属性值在 struts-default 包的 result-types 节点的 name 属性中定义.<br>         常用的有 </p>
+<pre><code>&gt; dispatcher(默认的): 转发. 同 Servlet 中的转发. 
+&gt; redirect: 重定向
+&gt; redirectAction: 重定向到一个 Action
+    注意: 通过 redirect 的响应类型也可以便捷的实现 redirectAction 的功能!
+
+&lt;result name=&quot;index&quot; type=&quot;redirectAction&quot;&gt;
+    &lt;param name=&quot;actionName&quot;&gt;testAction&lt;/param&gt;
+    &lt;param name=&quot;namespace&quot;&gt;/atguigu&lt;/param&gt;
+&lt;/result&gt;
+
+OR
+
+&lt;result name=&quot;index&quot; type=&quot;redirect&quot;&gt;/atguigu/testAction.do&lt;/result&gt;
+
+&gt; chain: 转发到一个 Action
+    注意: 不能通过 type=dispatcher 的方式转发到一个 Action
+
+     只能是:
+
+&lt;result name=&quot;test&quot; type=&quot;chain&quot;&gt;
+    &lt;param name=&quot;actionName&quot;&gt;testAction&lt;/param&gt;
+    &lt;param name=&quot;namespace&quot;&gt;/atguigu&lt;/param&gt;
+&lt;/result&gt;
+
+不能是:
+
+&lt;result name=&quot;test&quot;&gt;/atguigu/testAction.do&lt;/result&gt;
+</code></pre><ol>
+<li>ActionSupport</li>
+</ol>
+<p>1). ActionSupport 是默认的 Action 类: 若某个 action 节点没有配置 class 属性, 则 ActionSupport 即为<br>待执行的 Action 类. 而 execute 方法即为要默认执行的 action 方法</p>
+<action name="testActionSupport"><br>    <result>/testActionSupport.jsp</result><br></action>
+
+<p>等同于</p>
+<action name="testActionSupport" class="com.opensymphony.xwork2.ActionSupport" method="execute"><br>    <result>/testActionSupport.jsp</result><br></action>
+
+<p>2). 在手工完成字段验证, 显示错误消息, 国际化等情况下, 推荐继承 ActionSupport. </p>
+<ol>
+<li>关于 Struts2 请求的扩展名问题</li>
+</ol>
+<p>1). org.apache.struts2 包下的 default.properties 中配置了 Struts2 应用个的一些常量</p>
+<p>2). struts.action.extension 定义了当前 Struts2 应用可以接受的请求的扩展名.</p>
+<p>3). 可以在 struts.xml 文件中以常量配置的方式修改 default.properties 所配置的常量.</p>
+<constant name="struts.action.extension" value="action,do,"></constant>
+
+<ol>
+<li>在 Action 中访问 WEB 资源:</li>
+</ol>
+<p>1). 什么是 WEB 资源 ?</p>
+<pre><code>HttpServletRequest, HttpSession, ServletContext 等原生的 Servlet API。 
+</code></pre><p>2). 为什么访问 WEB 资源?</p>
+<pre><code>B\S 的应用的 Controller 中必然需要访问 WEB 资源: 向域对象中读写属性, 读写 Cookie, 获取 realPath ....
+</code></pre><p>3). 如何访问 ?</p>
+<p>I. 和 Servlet API 解耦的方式: 只能访问有限的 Servlet API 对象, 且只能访问其有限的方法(读取请求参数, 读写域对象的属性, 使 session 失效…). </p>
+<pre><code>&gt; 使用 ActionContext
+
+&gt; 实现 XxxAware 接口
+
+&gt; 选用的建议: 若一个 Action 类中有多个 action 方法, 且多个方法都需要使用域对象的 Map 或 parameters, 则建议使用
+Aware 接口的方式
+
+&gt; session 对应的 Map 实际上是 SessionMap 类型的! 强转后若调用其 invalidate() 方法, 可以使其 session 失效!
+</code></pre><p>II. 和 Servlet API 耦合的方式: 可以访问更多的 Servlet API 对象, 且可以调用其原生的方法.  </p>
+<pre><code>&gt; 使用 ServletActionContext
+
+&gt; 实现 ServletXxxAware 接口.
+</code></pre><ol>
+<li><p>复习搭建 Struts2 的开发环境: 3 个步骤</p>
+</li>
+<li><p>action VS Action 类</p>
+</li>
+</ol>
+<p>1). action: 代表一个  Struts2 的请求. </p>
+<p>2). Action 类: 能够处理 Struts2 请求的类. </p>
+<pre><code>&gt; 属性的名字必须遵守与 JavaBeans 属性名相同的命名规则. 
+    属性的类型可以是任意类型. 从字符串到非字符串(基本数据库类型)之间的数据转换可以自动发生
+
+&gt; 必须有一个不带参的构造器: 通过反射创建实例 
+
+&gt; 至少有一个供 struts 在执行这个 action 时调用的方法
+
+&gt; 同一个 Action 类可以包含多个 action 方法. 
+
+&gt; Struts2 会为每一个 HTTP 请求创建一个新的 Action 实例, 即 Action 不是单例的, 是线程安全的. 
 </code></pre>
         
       </div>
@@ -185,11 +260,11 @@
           <div class="post-nav">
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2016/05/01/struts2笔记二/">struts2笔记二</a>
-              
             </div>
 
             <div class="post-nav-next post-nav-item">
+              
+                <a href="/2016/04/30/struts2笔记一/">struts2笔记一</a>
               
             </div>
           </div>
